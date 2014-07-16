@@ -8,5 +8,9 @@ dependencies {
         exclude module: "spring-boot-starter-tomcat"
     }
     compile("org.springframework.boot:spring-boot-starter-jetty")
+
+    // Distributed persistence
+    compile("org.springframework.boot:spring-boot-starter-redis")
+
 //    compile("org.springframework.boot:spring-boot-starter-actuator")
 }
