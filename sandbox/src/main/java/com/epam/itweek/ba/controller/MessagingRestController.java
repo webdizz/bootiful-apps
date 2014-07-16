@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.epam.itweek.ba.domain.Message;
 import com.epam.itweek.ba.repository.MessageRepository;
 
 @RestController
@@ -24,12 +25,12 @@ public class MessagingRestController {
 
     @RequestMapping("/{username}")
     @ResponseBody
-    public List<String> messagesFor(@PathVariable("username") @NotEmpty String username) {
+    public List<Message> messagesFor(@PathVariable("username") @NotEmpty String username) {
         return messageRepository.listMessages(username);
     }
 
     @RequestMapping(value = "/{username}", method = RequestMethod.POST)
-    public void newMessage(@PathVariable("username") String username, @RequestBody String message) {
+    public void newMessage(@PathVariable("username") String username, @RequestBody Message message) {
         messageRepository.createMessage(username, message);
     }
 }
