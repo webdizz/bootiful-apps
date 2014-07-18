@@ -1,0 +1,29 @@
+@startuml
+
+actor User
+
+package "Boosender" {
+    [REST]
+    [MessageRepository]
+    [Social]
+    [Messaging]
+}
+
+package "Twitter" {
+    [REST API]
+}
+
+database messages
+database users
+
+User -right-> [REST]
+[REST] ..> [Messaging]
+[MessageRepository] -> messages
+[Messaging] -left-> [MessageRepository]
+
+[Messaging] -> [Social]
+
+[Social] -> users
+[Social] ..> [REST API]
+
+@enduml
