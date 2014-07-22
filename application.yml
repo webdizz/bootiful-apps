@@ -2,12 +2,11 @@ server:
   port: 8070
 
 spring:
+  thymeleaf:
+    cache: false
   redis:
     host: 192.168.56.71
     password: 123456
-    port: 6379
-    pool:
-      max-idle: 8
-      min-idle: 0
-      max-active: 8
-      max-wait: -1
+  social:
+    twitter:
+      appId: YdOWtGtbEBHMXjZPzboi8F0Ec

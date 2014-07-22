@@ -17,8 +17,9 @@ import com.epam.itweek.ba.domain.Message;
 import com.epam.itweek.ba.repository.MessageRepository;
 
 @RestController
+@RequestMapping("/v1/messages")
 @Slf4j
-public class MessagingRestController {
+public class MessageRestController {
 
     @Autowired
     private MessageRepository messageRepository;
