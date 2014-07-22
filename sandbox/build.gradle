@@ -12,5 +12,17 @@ dependencies {
     // Distributed persistence
     compile("org.springframework.boot:spring-boot-starter-redis")
 
+    // Twitter
+    compile("org.springframework.social:spring-social-twitter")
+
+    // Web UI
+    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+
 //    compile("org.springframework.boot:spring-boot-starter-actuator")
+}
+
+bootRun {
+    if ( project.hasProperty('args') ) {
+        args project.args.split('\\s+')
+    }
 }
