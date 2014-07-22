@@ -4,21 +4,21 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot'
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-web") {
+    compile ('org.springframework.boot:spring-boot-starter-web') {
         exclude module: "spring-boot-starter-tomcat"
     }
-    compile("org.springframework.boot:spring-boot-starter-jetty")
+    compile 'org.springframework.boot:spring-boot-starter-jetty'
 
     // Distributed persistence
-    compile("org.springframework.boot:spring-boot-starter-redis")
+    compile 'org.springframework.boot:spring-boot-starter-redis'
 
     // Twitter
-    compile("org.springframework.social:spring-social-twitter")
+    compile 'org.springframework.social:spring-social-twitter'
 
     // Web UI
-    compile("org.springframework.boot:spring-boot-starter-thymeleaf")
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
 
-//    compile("org.springframework.boot:spring-boot-starter-actuator")
+//    compile 'org.springframework.boot:spring-boot-starter-actuator'
 }
 
 bootRun {
