@@ -17,8 +17,9 @@ Google Compute Engine and Docker
       --image-project google-containers \
       --zone europe-west1-a \
       --machine-type f1-micro \
-      --tags http-server \
-      --address 146.148.2.77
+      --tags http-server https-server \
+      --address 146.148.3.93 \
+      --metadata-from-file google-container-manifest=env/containers.yaml
 
 * List images::
 
@@ -31,3 +32,7 @@ Google Compute Engine and Docker
 * Delete image::
 
     gcloud compute instances delete --zone europe-west1-a bootiful-img
+
+* Register network address::
+
+    gcutil reserveaddress --project=bootiful-todo-app --region=europe-west1  bootiful-apps-network
