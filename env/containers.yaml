@@ -6,3 +6,9 @@ containers:
       - name: redi-listen-port
         hostPort: 6379
         containerPort: 6379
+  - name: app1
+    image: webdizz/centos-java8-sshd
+    ports:
+      - name: app1-listen-port
+        hostPort: 8080
+        containerPort: 8080
