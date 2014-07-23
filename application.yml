@@ -6,7 +6,6 @@ spring:
     cache: false
   redis:
     host: 192.168.56.71
-    password: 123456
   social:
     twitter:
       appId: YdOWtGtbEBHMXjZPzboi8F0Ec
