@@ -19,7 +19,19 @@ Google Compute Engine and Docker
       --machine-type f1-micro \
       --tags http-server https-server \
       --address 146.148.3.93 \
-      --metadata-from-file google-container-manifest=env/containers.yaml
+      --no-boot-disk-auto-delete \
+      --disk name=bootiful-img boot=yes
+
+* Create with existing device::
+
+    gcloud compute instances create bootiful-img \
+      --image-project google-containers \
+      --zone europe-west1-a \
+      --machine-type f1-micro \
+      --tags http-server https-server \
+      --address 146.148.3.93 \
+      --disk name=bootiful-img boot=yes
+
 
 * List images::
 
