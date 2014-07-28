@@ -1,14 +1,21 @@
-server:
-  port: 8070
-
 spring:
   thymeleaf:
     cache: false
-  redis:
-    host: 192.168.56.71
   social:
     twitter:
       appId: YdOWtGtbEBHMXjZPzboi8F0Ec
+      appSecret: use_env
+      accessToken: use_env
+      accessTokenSecret: use_env
+
+---
+
+server:
+  port: 8070
+spring:
+  profiles: ld
+  redis:
+    host: 192.168.56.71
 
 ---
 
@@ -18,8 +25,7 @@ server:
 spring:
   thymeleaf:
     cache: true
-  profiles:
-    - lc
+  profiles: lc
   redis:
     host: redis_1
 
