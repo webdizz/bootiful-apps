@@ -9,3 +9,29 @@ spring:
   social:
     twitter:
       appId: YdOWtGtbEBHMXjZPzboi8F0Ec
+
+---
+
+# configuration for local cluster
+server:
+  port: 8080
+spring:
+  thymeleaf:
+    cache: true
+  profiles:
+    - lc
+  redis:
+    host: redis_1
+
+---
+
+# configuration for GCE cluster
+server:
+  port: 8080
+spring:
+  thymeleaf:
+    cache: true
+  profiles:
+    - gce
+  redis:
+    host: redis_1
