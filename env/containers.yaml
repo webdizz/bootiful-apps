@@ -7,8 +7,18 @@ containers:
         hostPort: 6379
         containerPort: 6379
   - name: app1
-    image: webdizz/centos-java8-sshd
+    image: webdizz/baseimage-java8
     ports:
       - name: app1-listen-port
         hostPort: 8080
         containerPort: 8080
+  - name: nginx
+    image: webdizz/nginx
+    ports:
+      - name: nginx-listen-port
+        hostPort: 80
+        containerPort: 80
+      - name: nginx-ssl-listen-port
+        hostPort: 443
+        containerPort: 443
+
