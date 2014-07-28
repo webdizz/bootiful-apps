@@ -1,8 +1,7 @@
 package com.epam.itweek.ba.controller;
 
-import lombok.extern.slf4j.Slf4j;
-
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
 
 import com.epam.itweek.ba.domain.Message;
 import com.epam.itweek.ba.repository.MessageRepository;
@@ -26,8 +26,8 @@ public class MessageRestController {
 
     @RequestMapping("/{username}")
     @ResponseBody
-    public List<Message> messagesFor(@PathVariable("username") @NotEmpty String username) {
-        return messageRepository.listMessages(username);
+    public Callable<List<Message>> messagesFor(@PathVariable("username") @NotEmpty String username) {
+        return () -> messageRepository.listMessages(username);
     }
 
     @RequestMapping(value = "/{username}", method = RequestMethod.POST)
