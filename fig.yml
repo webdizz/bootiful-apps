@@ -1,0 +1,32 @@
+app:
+  image: webdizz/baseimage-java8
+  ports:
+    - 22
+  expose:
+    - 8080
+  links:
+    - redis
+  volumes:
+    - sandbox/build/libs/sandbox-1.0-SNAPSHOT.jar:/sandbox-1.0-SNAPSHOT.jar
+    - application.yml:/application.yml
+
+redis:
+  image: dockerfile/redis
+  expose:
+    - 6379
+
+nginx:
+  image: webdizz/nginx
+  ports:
+    - 80:80
+    - 443:443
+    - 22
+  links:
+    - app
+  volumes:
+    - env/nginx/nginx.conf:/usr/local/nginx/conf/nginx.conf
+    - env/nginx/includes:/usr/local/nginx/conf/includes
+    - env/nginx/sites-enabled:/usr/local/nginx/conf/sites-enabled
+    - sandbox/src/main/resources/static:/usr/local/nginx/html
+  environment:
+    - ROOT_PASS=123456
