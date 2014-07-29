@@ -36,6 +36,6 @@ public class MessageRestController {
 
     @RequestMapping(value = "/{username}", method = RequestMethod.POST)
     public void newMessage(@PathVariable("username") String username, @RequestBody Message message) {
-        messageShipper.send(message.getContent());
+        messageShipper.send(username, message.getContent());
     }
 }

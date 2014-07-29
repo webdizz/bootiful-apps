@@ -41,7 +41,7 @@ public class MessageController {
     public Callable<String> posMessage(@PathVariable("username") String username,
             @RequestParam("message") String postedMessage) {
         return () -> {
-            messageShipper.send(postedMessage);
+            messageShipper.send(username, postedMessage);
             return "redirect:/" + username;
         };
     }

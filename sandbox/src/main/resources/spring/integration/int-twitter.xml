@@ -6,10 +6,18 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
-    <int:channel id="messagingChannel" />
+    <int:channel id="messagingChannel"/>
 
-    <int:service-activator input-channel="messagingChannel">
-        <bean class="com.epam.itweek.ba.messaging.delivery.TwitterDeliveryHandler"/>
-    </int:service-activator>
+    <int:chain input-channel="messagingChannel">
+        <int:service-activator method="deliver">
+            <bean class="com.epam.itweek.ba.messaging.delivery.TwitterDeliveryHandler"/>
+        </int:service-activator>
+
+        <int:service-activator method="deliver">
+            <bean class="com.epam.itweek.ba.messaging.delivery.RedisPersistentDeliveryHandler"/>
+        </int:service-activator>
+        <int:logging-channel-adapter log-full-message="true"/>
+    </int:chain>
+
 
 </beans>
