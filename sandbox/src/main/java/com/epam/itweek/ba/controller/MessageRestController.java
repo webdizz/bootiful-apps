@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
 
 import com.epam.itweek.ba.domain.Message;
+import com.epam.itweek.ba.messaging.delivery.MessageShipper;
 import com.epam.itweek.ba.repository.MessageRepository;
 
 @RestController
@@ -24,6 +25,9 @@ public class MessageRestController {
     @Autowired
     private MessageRepository messageRepository;
 
+    @Autowired
+    private MessageShipper messageShipper;
+
     @RequestMapping("/{username}")
     @ResponseBody
     public Callable<List<Message>> messagesFor(@PathVariable("username") @NotEmpty String username) {
@@ -32,6 +36,6 @@ public class MessageRestController {
 
     @RequestMapping(value = "/{username}", method = RequestMethod.POST)
     public void newMessage(@PathVariable("username") String username, @RequestBody Message message) {
-        messageRepository.createMessage(username, message);
+        messageShipper.send(message.getContent());
     }
 }

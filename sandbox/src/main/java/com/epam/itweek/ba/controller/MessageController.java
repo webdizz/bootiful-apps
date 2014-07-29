@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.epam.itweek.ba.domain.Message;
+import com.epam.itweek.ba.messaging.delivery.MessageShipper;
 import com.epam.itweek.ba.repository.MessageRepository;
 
 @Controller
@@ -22,6 +23,9 @@ public class MessageController {
 
     @Autowired
     private MessageRepository messageRepository;
+
+    @Autowired
+    private MessageShipper messageShipper;
 
     @RequestMapping("/{username}")
     public Callable<String> createMessage(@PathVariable("username") String username, Model model) {
@@ -37,9 +41,7 @@ public class MessageController {
     public Callable<String> posMessage(@PathVariable("username") String username,
             @RequestParam("message") String postedMessage) {
         return () -> {
-            Message message = new Message();
-            message.setContent(postedMessage);
-            messageRepository.createMessage(username, message);
+            messageShipper.send(postedMessage);
             return "redirect:/" + username;
         };
     }

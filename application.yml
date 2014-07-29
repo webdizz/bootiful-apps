@@ -1,9 +1,7 @@
 spring:
-  thymeleaf:
-    cache: false
   social:
     twitter:
-      appId: YdOWtGtbEBHMXjZPzboi8F0Ec
+      appId: FUdxv0M8fVNnuSOIZi3wwoJdg
       appSecret: use_env
       accessToken: use_env
       accessTokenSecret: use_env
