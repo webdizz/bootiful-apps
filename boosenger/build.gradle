@@ -17,4 +17,7 @@ dependencies {
 
     // Integration
     compile 'org.springframework.boot:spring-boot-starter-integration'
+
+    // Distributed persistence
+    compile 'org.springframework.boot:spring-boot-starter-redis'
 }
