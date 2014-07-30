@@ -14,11 +14,12 @@ import com.epam.itweek.boosenger.domain.Message;
 
 @MessageEndpoint
 @Slf4j
-public class TwitterDeliveryHandler {
+public class TwitterDeliveryHandler implements MessageDeliverable {
 
     @Autowired
     private ConnectionRepository connectionRepository;
 
+    @Override
     @ServiceActivator
     public org.springframework.messaging.Message<Message> deliver(
             final org.springframework.messaging.Message<Message> message) {
