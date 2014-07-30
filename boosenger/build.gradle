@@ -11,4 +11,10 @@ dependencies {
 
     // Web UI
     compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    // Twitter
+    compile 'org.springframework.social:spring-social-twitter'
+
+    // Integration
+    compile 'org.springframework.boot:spring-boot-starter-integration'
 }
