@@ -3,4 +3,4 @@ jdk:
   - oraclejdk8
 
 install:
-  - pip install ansible
+  - pip install ansible --download-cache $HOME/.pip-cache
