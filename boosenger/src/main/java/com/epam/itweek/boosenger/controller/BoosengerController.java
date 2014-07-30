@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import lombok.extern.slf4j.Slf4j;
 
 import com.epam.itweek.boosenger.messaging.delivery.MessageShipper;
+import com.epam.itweek.boosenger.repository.MessageRepository;
 
 @Controller
 @Slf4j
@@ -21,12 +22,15 @@ public class BoosengerController {
     @Autowired
     private MessageShipper messageShipper;
 
+    @Autowired
+    private MessageRepository messageRepository;
+
     @RequestMapping("/{username}")
     public Callable<String> createMessage(@PathVariable("username") String username, Model model) {
         return () -> {
             model.addAttribute("username", username);
 
-            model.addAttribute("messages", Collections.EMPTY_LIST);
+            model.addAttribute("messages", messageRepository.listMessages(username));
             return "messaging/messages";
         };
     }
