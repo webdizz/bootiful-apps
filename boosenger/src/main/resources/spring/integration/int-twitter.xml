@@ -12,6 +12,9 @@
         <int:service-activator>
             <bean class="com.epam.itweek.boosenger.messaging.delivery.TwitterDeliveryHandler"/>
         </int:service-activator>
+        <int:service-activator>
+            <bean class="com.epam.itweek.boosenger.messaging.delivery.RedisPersistentDeliveryHandler"/>
+        </int:service-activator>
         <int:logging-channel-adapter log-full-message="true"/>
     </int:chain>
 </beans>
