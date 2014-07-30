@@ -8,4 +8,7 @@ dependencies {
         exclude module: "spring-boot-starter-tomcat"
     }
     compile 'org.springframework.boot:spring-boot-starter-jetty'
+
+    // Web UI
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
 }
