@@ -1,2 +1,3 @@
 rootProject.name='bootilful-apps' // TEMPLATE: Change this
-include ':sandbox'
+include ':sandbox',
+        ':boosenger'
