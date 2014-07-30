@@ -3,6 +3,7 @@ package com.epam.itweek.boosenger.controller;
 import java.util.Collections;
 import java.util.concurrent.Callable;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +12,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import lombok.extern.slf4j.Slf4j;
 
+import com.epam.itweek.boosenger.messaging.delivery.MessageShipper;
+
 @Controller
 @Slf4j
 public class BoosengerController {
+
+    @Autowired
+    private MessageShipper messageShipper;
 
     @RequestMapping("/{username}")
     public Callable<String> createMessage(@PathVariable("username") String username, Model model) {
@@ -30,6 +36,7 @@ public class BoosengerController {
                                        @RequestParam("message") String postedMessage) {
         return () -> {
             log.info("Is about to post message '{}' for username: '{}'", postedMessage, username);
+            messageShipper.ship(username, postedMessage);
             return "redirect:/" + username;
         };
     }
