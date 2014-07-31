@@ -7,7 +7,7 @@ env:
 
 install:
   - sudo apt-get install python-pip
-  - sudo pip ansible paramiko PyYAML jinja2 httplib2 docker-py
+  - sudo pip install ansible paramiko PyYAML jinja2 httplib2 docker-py
 
 after_success:
   ./gradlew :boos:bintrayUpload -PbintrayKey=$BINTRAY_KEY -Pversion="1.0.$TRAVIS_BUILD_NUMBER" -x publishMavenJavaPublicationToMavenLocal
