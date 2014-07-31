@@ -2,9 +2,15 @@ language: java
 jdk:
   - oraclejdk8
 
+env:
+  - secure: "PnbLPd2lg3eLqpBzZOT1LZYeszPIm0wcCd6pVb/tp/E1wI9vD544CCtmMo1pfE+gnybqb4mNzC+1VUFhUOTdUtqiuPO+4lebg+x/Bc8aPc8J/B7Gx5+qK/HCJrKzj9NjtArAGeXh65z4Miyg1p+OuXD9Zi/MvBi6ExGCz6c9cFA="
+
 before_install:
   - sudo FORCE_ADD_APT_REPOSITORY=1 add-apt-repository ppa:rquillo/ansible
   - sudo apt-get update
 
 install:
   - sudo apt-get install ansible
+
+after_success:
+  ./gradlew :boos:bintrayUpload -PbintrayKey=$BINTRAY_KEY -Pversion="1.0.$TRAVIS_JOB_ID" -x publishMavenJavaPublicationToMavenLocal
