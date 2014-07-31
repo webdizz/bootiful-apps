@@ -1,0 +1,4 @@
+project_root: /bootiful-apps
+application_name: boosenger.jar
+application_version: 1.0.23
+application_url: http://dl.bintray.com/webdizz/maven/com/epam/bootilful-apps/boosenger/{{ application_version }}/boosenger-{{ application_version }}.jar

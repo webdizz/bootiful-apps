@@ -1,0 +1,4 @@
+---
+
+  - name: Download application artifact
+    get_url: url={{ application_url }} dest={{ project_root }}/env/docker/application/{{ application_name }}
