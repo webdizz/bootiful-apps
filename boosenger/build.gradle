@@ -56,3 +56,9 @@ bintray {
 }
 
 bintrayUpload.dependsOn 'bootRepackage'
+
+processResources {
+    into("/") {
+        from(file("${project.getRootProject().getRootDir()}/application.yml"))
+    }
+}
