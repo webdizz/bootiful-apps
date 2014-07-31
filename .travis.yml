@@ -13,4 +13,4 @@ install:
   - sudo apt-get install ansible
 
 after_success:
-  ./gradlew :boos:bintrayUpload -PbintrayKey=$BINTRAY_KEY -Pversion="1.0.$TRAVIS_JOB_ID" -x publishMavenJavaPublicationToMavenLocal
+  ./gradlew :boos:bintrayUpload -PbintrayKey=$BINTRAY_KEY -Pversion="1.0.$TRAVIS_BUILD_NUMBER" -x publishMavenJavaPublicationToMavenLocal
