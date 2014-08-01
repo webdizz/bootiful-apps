@@ -1,23 +1,27 @@
 ---
 
   - name: Run Docker container with Redis
-    docker: state=running image=dockerfile/redis ports=6379 name=ans_redis
+    docker:
+      state: running
+      image: dockerfile/redis
+      ports: 6379
+      name: redis_1
 
   - name: Run Docker container with application
     docker:
       state: running
+      name: app_1
       image: webdizz/bootiful-app:{{ application_version }}
-      name: ans_app
-      links: ans_redis:ans_redis
+      links: redis_1:redis_1
       expose: 8080,22
+      env: "{{ application_options }}"
       ports: 22,8080
-      env=" APP_OPTS=--spring.active.profiles=lc "
 
   - name: Run Docker container with Nginx
     docker:
       state: running
       image: webdizz/nginx
+      name: ans_nginx
       ports: 80:80,443:443,22
       expose: 22
-      name: ans_nginx
-      links: ans_app:ans_app
+      links: app_1:app_1

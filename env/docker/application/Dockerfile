@@ -14,7 +14,8 @@ RUN	locale-gen en_US.UTF-8
 ADD boosenger.jar   /boosenger.jar
 
 ENV APP_OPTS --application.empty
-CMD java -jar /boosenger.jar $APP_OPTS
+ENV JAVA_OPTS -Xmx1G
+CMD java -jar $JAVA_OPTS /boosenger.jar $APP_OPTS
 
 # Clean up APT when done.
 RUN	apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*

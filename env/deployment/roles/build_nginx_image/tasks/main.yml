@@ -1,0 +1,12 @@
+---
+
+  - name: Build Docker image for Nginx
+    command: docker build -t webdizz/bootiful-app-web:{{ application_version }} .
+    args:
+      chdir: "{{ project_root }}/env/docker/web"
+
+  - name: Remove static resources after image was built
+    command: rm -rf {{ project_root }}/env/docker/web/static
+
+  - name: Remove Nginx configuration files after image was built
+    command: rm -rf {{ project_root }}/env/docker/web/nginx
