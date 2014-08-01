@@ -1,5 +1,5 @@
 project_root: /bootiful-apps
 application_name: boosenger.jar
-application_version: 1.0.28
+application_version: 1.0.29
 application_url: http://dl.bintray.com/webdizz/maven/com/epam/bootilful-apps/boosenger/{{ application_version }}/boosenger-{{ application_version }}.jar
 application_options: APP_OPTS=--spring.active.profiles=lc,JAVA_OPTS=-Xmx1G

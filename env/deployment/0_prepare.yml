@@ -9,3 +9,5 @@
   roles:
     - download_app
     - build_app_image
+    - build_nginx_image
+    - remove_resources_after_image_built

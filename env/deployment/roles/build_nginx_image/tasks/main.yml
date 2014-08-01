@@ -1,12 +1,12 @@
 ---
 
+  - name: Create temp directory for static content
+    file: path={{ project_root }}/env/docker/web/static state=directory
+
+  - name: Preapre static resources for Nginx image to be included
+    unarchive: src={{ project_root }}/env/docker/application/{{ application_name }} dest={{ project_root }}/env/docker/web/static
+
   - name: Build Docker image for Nginx
     command: docker build -t webdizz/bootiful-app-web:{{ application_version }} .
     args:
       chdir: "{{ project_root }}/env/docker/web"
-
-  - name: Remove static resources after image was built
-    command: rm -rf {{ project_root }}/env/docker/web/static
-
-  - name: Remove Nginx configuration files after image was built
-    command: rm -rf {{ project_root }}/env/docker/web/nginx
