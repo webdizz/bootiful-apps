@@ -61,4 +61,7 @@ processResources {
     into("/") {
         from(file("${project.getRootProject().getRootDir()}/application.yml"))
     }
+    into("/env/nginx"){
+        from(files("${project.getRootProject().getRootDir()}/env/nginx"))
+    }
 }
