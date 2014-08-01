@@ -11,15 +11,15 @@ install:
 
 before_script:
   # Unpack ssh key for GCE
-  for i in {0..30}; do eval $(printf "echo \$id_rsa_%02d\n" $i) >> ~/.ssh/id_rsa_base64; done
-  base64 --decode ~/.ssh/id_rsa_base64 > ~/.ssh/google_compute_engine
-  chmod 600 ~/.ssh/google_compute_engine
+  - for i in {0..30}; do eval $(printf "echo \$id_rsa_%02d\n" $i) >> ~/.ssh/id_rsa_base64; done
+  - base64 --decode ~/.ssh/id_rsa_base64 > ~/.ssh/google_compute_engine
+  - chmod 600 ~/.ssh/google_compute_engine
 
   # Unpack ssh key for GCE
-  for i in {0..10}; do eval $(printf "echo \$id_rsa_pub_%02d\n" $i) >> ~/.ssh/id_rsa_base64.pub; done
-  base64 --decode ~/.ssh/id_rsa_base64.pub > ~/.ssh/google_compute_engine.pub
-  chmod 600 ~/.ssh/google_compute_engine.pub
-  ls -la ~/.ssh
+  - for i in {0..10}; do eval $(printf "echo \$id_rsa_pub_%02d\n" $i) >> ~/.ssh/id_rsa_base64.pub; done
+  - base64 --decode ~/.ssh/id_rsa_base64.pub > ~/.ssh/google_compute_engine.pub
+  - chmod 600 ~/.ssh/google_compute_engine.pub
+  - ls -la ~/.ssh
 
 after_success:
   - ./gradlew :boos:bintrayUpload -PbintrayKey=$BINTRAY_KEY -Pversion="1.0.$TRAVIS_BUILD_NUMBER" -x publishMavenJavaPublicationToMavenLocal
