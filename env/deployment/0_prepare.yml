@@ -6,6 +6,7 @@
     - vars.yml
   sudo: True
   roles:
+    - install_prerequisites
     - checkout_source
     - download_app
     - build_app_image
