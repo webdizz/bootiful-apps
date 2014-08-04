@@ -7,6 +7,12 @@
       ports: 6379
       name: redis_1
 
+  - name: Remove Docker container with application
+    docker:
+      state: absent
+      name: app_1
+      image: webdizz/bootiful-app
+
   - name: Run Docker container with application
     docker:
       state: running
@@ -16,6 +22,12 @@
       expose: 8080,22
       env: "{{ application_options }}"
       ports: 22,8080
+
+  - name: Remove Docker container with Nginx
+    docker:
+      state: absent
+      image: webdizz/bootiful-app-web
+      name: nginx_1
 
   - name: Run Docker container with Nginx
     docker:
