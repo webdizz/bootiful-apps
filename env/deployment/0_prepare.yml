@@ -1,0 +1,14 @@
+---
+
+- hosts:
+  - vm
+  vars_files:
+    - vars.yml
+  sudo: True
+  roles:
+    - install_prerequisites
+    - checkout_source
+    - download_app
+    - build_app_image
+    - build_nginx_image
+    - remove_resources_after_image_built

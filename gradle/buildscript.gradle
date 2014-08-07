@@ -4,6 +4,7 @@ repositories {
     repositories { 
 	maven { url 'http://dl.bintray.com/content/netflixoss/external-gradle-plugins/' } 
 	maven { url 'http://repo.spring.io/plugins-release' }
+    jcenter()
     } // For gradle-release
 }
 dependencies {
@@ -12,4 +13,5 @@ dependencies {
     classpath 'gradle-release:gradle-release:1.1.5'
     classpath 'org.ajoberstar:gradle-git:0.9.0'
     classpath 'org.springframework.build.gradle:propdeps-plugin:0.0.7'
+    classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:0.5'
 }

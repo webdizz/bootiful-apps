@@ -1,3 +1,55 @@
 language: java
 jdk:
   - oraclejdk8
+
+install:
+  - sudo sh -c "wget -qO- https://get.docker.io/gpg | apt-key add -"
+  - sudo sh -c "echo deb http://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
+  - sudo apt-get update
+  - sudo apt-get install python-pip lxc-docker
+  - sudo pip install ansible
+
+before_script:
+  # Unpack ssh key for GCE
+  - echo "decrypt private key"
+  - for i in {0..30}; do eval $(printf "echo \$id_rsa_%02d\n" $i) >> ~/.ssh/id_rsa_base64; done
+  - base64 --decode ~/.ssh/id_rsa_base64 > ~/.ssh/google_compute_engine
+  - chmod 600 ~/.ssh/google_compute_engine
+
+after_success:
+  - ./gradlew :boos:bintrayUpload -PbintrayKey=$BINTRAY_KEY -Pversion="1.0.$TRAVIS_BUILD_NUMBER" -x publishMavenJavaPublicationToMavenLocal
+  - ansible-playbook  -i env/deployment/gce.ini env/deployment/0_prepare.yml --extra-vars '{"application_version":"1.0.'$TRAVIS_BUILD_NUMBER'","project_root":"/home/travis/build/webdizz/bootiful-apps", "application_options":"APP_OPTS=--spring.active.profiles=gce '$TWITTER_APP_ID' '$TWITTER_APP_SEC',JAVA_OPTS=-Xmx1G"}'
+  - ansible-playbook  -i env/deployment/gce.ini env/deployment/1_run.yml --extra-vars '{"application_version":"1.0.'$TRAVIS_BUILD_NUMBER'","project_root":"/home/travis/build/webdizz/bootiful-apps", "application_options":"APP_OPTS=--spring.active.profiles=gce '$TWITTER_APP_ID' '$TWITTER_APP_SEC',JAVA_OPTS=-Xmx1G"}'
+
+env:
+  global:
+    # ENV variable with Bintray API Key
+    - secure: "PnbLPd2lg3eLqpBzZOT1LZYeszPIm0wcCd6pVb/tp/E1wI9vD544CCtmMo1pfE+gnybqb4mNzC+1VUFhUOTdUtqiuPO+4lebg+x/Bc8aPc8J/B7Gx5+qK/HCJrKzj9NjtArAGeXh65z4Miyg1p+OuXD9Zi/MvBi6ExGCz6c9cFA="
+    # Twitter TWITTER_APP_ID
+    - secure: "BVeUuTVZiZ3d++erggqaiI+BF/AP4zdqsh5kaWBOAtSpNjVbrg+ldX/qmqTsMtsoFtcrQPOD4GCi93F0XF3X8L+4l/dlnRH0QdJHbBU96ELdIOEZnZRpmAIONISV9c9KT3W6dCNN108m2Xn6Zktw+ruKNYTjanDT8FyNcbO62fs="
+    # Twitter TWITTER_APP_SEC
+    - secure: "Jp/VKbMry6IX8cmr05vbFKh5W/6slNmYgJrf5ICAXz4u6v7oV4KDCbgh0CNy5Uh1voxJYu3AUxKaDScCUqCCerBOazXd4DavnfrVDJ0Hq65Kt2bO5/0tizDVSQKcvvVTt+pPbz8cU9mmH7O6wyzVgJUVSwsEDDj9o2U89QJ/tXE="
+    # ENV variables of encrypted Private Key for GCE
+    - secure: "iov8x5n0OzQwZG9rXMswfQeCSKw1hbHu8Li1zqyTfEFQ6xKZOU1yU9s8F6AxSIXQj2rTHSjWvyZwfVHZpkFX4e0pM5ECQ94/0cJV/VVd0q8LUY7F6ICjyiNvb+SUUHrMSbY5YuM/YVDmNZVhuO7p80wo+zteLxvDRNqe1pEncZI="
+    - secure: "isPYNgWonAXBsoBQRRO7btymgc7xaDrCasASdQKr16IDTDjNOHfAsaJG8ZxNY+pr97yW3yYkdNYo84d3RP5PHpaNWJVazVY+Gq/xP9OAbsOVF33G4rSKGusLQVhC0q4+LKTZPmL3HpG6RVEqMwms04k1TY6cZzSTLLDXlVte4F4="
+    - secure: "hI7hGPvXckZAt70ce11Em2XOSip4mdlIBmcLZKAOJaVTezm+0zhkeEucw67iMT27hxyb5YA6xbB29fyWDmpQUE7C8L/A5++THQ/mfPVXKLA+djyS40XoqaIfyQF9bdHY/5fybpwB9XXzujqrWWF5uuPHDV+5RlAt1JYwLZbGyzk="
+    - secure: "Gz3qXUG733R5kwYhOAKHF8WGVryfieoADP/xx0dyDkHP7twUDi0CsEq/CSp4kBWG6X+ZZkyBD3UzXr6y5WxeIctJ5gys8xyWMRhsJYiiHPj8DnjavV2GnPK71GkzxhLitCFU4tbtFWHNPFsJW1K300Q8q49Zdn2W2OOJpcGUBco="
+    - secure: "NE6MwlJhii4pKzDpbcMSYHYjo0grl0HZXq3T3jayQTri+oflX4PhJODn1kOWqwIGzFAw28s1vskhmZncVvXdl5zkc4y++jwlyF/cjymInkr0b+8cfKWzkOWL/+e2dcGQdFw0cyk2Kj20fOUSgU60Pn0KVICl++Zh1bVd/7WpMjY="
+    - secure: "nqEXGP8OcK/s4eTNajf1WfjSYR7+E+NlBA6XXeaEtqNS+kZLZmBA8SVSTSEL/S3xyh1i+P0sqT2gkXtOWPLREQl15Fvl8RreXi151Mwjw8FIYcNXm7sS9En3m0JyGmVsMUAR7wM0gJizADmZILTrFRlC+/f23b7fmXd84G76FkI="
+    - secure: "MQQAci0MyGRaqQ043zJRqk/8PCpB11mqMGH/YWU1mPIJZ5/+8w0CXrw+9x6dGoXFJti6eLfjiGae1NjXV9o/MsEfbXdtwOMG6BfF3/nTJcDjWfP7VW1EnODZPH9WJBAEVOqAYUnwrkmWNIoRptxBOP99xyjjyl4vKIdmkE52AJk="
+    - secure: "eX1UbngGKuEmXXz4H+PKKZc6+9Igt4GD49RuEg61jHL5FascZBnoHkAJxqAg3m11SKc4BoqFNpbO772h6YZGQLGcyz7IsNIQdWMM8OiZozUNuudsLucdcDnYiZ8BXn9fB6BdYKbOKCeOFyZNBEzHPcoVi9wABFbNCtqZjBSfbdI="
+    - secure: "oYCXdFTV6xBLe4tYlkL10ZhJKxyi1qho2L9TsLRe8emls3ZW77K4aQzVE5R8p4j97igvAxZDhsLx+ZRtELz/A32urSC9+S/KWjyU+2OaPZAEUkdXp92Jdy8XgfprlUb4UMm1qJlPBwrxUtPblHWgQ/s4TYruiWzi/Se70gZGzh8="
+    - secure: "pNE5Uf+gjvZorI8/7iOxnpZw8ZERDaQeYZFq4pmwWaCyqIRhR0RtWGRkHs2Fko243iM08cEMm9YYEaqaSWeuehYyhAkqF8IGrIhX+rmVtcdFWlsSwu3sd190nE2WsUFgj9DH5TMAPvhj1HAALnheHRlkDF50wtteAk1GVQ/FMfU="
+    - secure: "V6Oer5aCzUbVc5ZG1xr2zKp91xIgPrCbbS0TBYqdhzupNOX2tITTYpvXhDZ2FdhObUdtvJtEgikSCZeUVhWtIPUrflI+LP7ddS5AUvL/HC56A7lAmfuIxpE7kOPiB6gSSEoTz/EmX6owLfSfySv81hlCkl2Cl/4u924UUUtRU5Q="
+    - secure: "E1HB9FuE2wiCM9l2U5nK19ayAlkHWWEu1gPim0x+exbYgu8LkInE8WXpuN1io/wldwo3BfpfETw7Wn0MmXpwDc3x8Y/r16b2+KYtJCiAlScVkNk7fo+hOf7uthVCXw9Dq6bjWRry82I2aa6lgqUWaAitVGiFTliIriz/XQF0Xh8="
+    - secure: "Vw6UcOseocl/onVzYm4j2IvgF1G0P+GpeZfkP0I4lQkbBTxtRoFHKctGBGULYIadOC8ro71UzzaxqBW5y95QzVTsSGQtfJR6sLUp3WaHSZtOOg/PPn5H9TqG2FZ7afo4jhIlFPhp2lzb/EFiDs+yuhMM5FjqBLf2+upp1G/pwfI="
+    - secure: "Js5yxLjvI9B6Bzg/BgMmLA+OfRmJYc4p83nkerKD5caDl55ytjzW7X+KZSymi4VURu/90/OClp1VFWkAziA//cVDCbEfTv7zipn72Cl18cCBma0rwwhBHFmE7uQwUejslZ+NR/B3ahSMFqY5Nbqdkpn4EfdkTnPeoO17g0P8+JQ="
+    - secure: "E0kXublDQWWPqknMQtvK/+RNYoIXiSbhi8Uzez8306JetkSQI+qgYGFvd+mqM89I32+QS9Q+2Kwmaz9s9FiQDDS76FaBgk+S0CBuvuGiD48LJVEfh21FRf+D5BKpu883BdCrypVN3vkiqTFuYJhL5rLZARa0TPs3beUOVfTJiU4="
+    - secure: "dQ8Vx4jq0hIFiy0QeQjefknuCt7xfwqa/P/zmgvafAKvnOAvD7+N4JTKlm96Pg2YAg+HBdJE688Cq+pY6qBi6ZhgFgJB/2BUpCAUi4qU7GAkah6HFILkmODOCuI0xPUSOTxP9YX+H+kLSfdfedjR+JHRzk69ggPwF8844ucU/bM="
+    - secure: "r2U95+7wpbHyt2YH9Lti8Hl2LnFFcccgoLswyLY6NjevayFBocozjT0u2d8m0bNdiEGXZSFktFXtI8MC9xSEjCvTj66LQJK5nyVZIEKtkT//0sHgs+ZYOgpdmTWLYUkKs7hBxusa9ly/RYLvR5DAtzIQzffcZOFYDpVCtHAP8EI="
+    - secure: "AXBJ73AOXWzIdczg/5pTPbnSm6EegGSRQBMz7g/MTdVtTvgFbm7Y4jZvwCCO8YbluIa0ffRok6y8dkdjFxS+ZvPZ+9T8dMWumY+QVLaWyx2zbxbXo/Qnvco5XXBeiS7jxz4iVSN0bO1tj3ZqdZtngP7AozJwUhklxj5I079yF8E="
+    - secure: "X0iAgsFISMDgCYo+r30cUHnqFp59jpzv9spOHHYIu4AFt/E6IugffBdr5bHkp3dAS0XfTE7ik/IKgbB1i7RbVoFkh/07t06h3IeIZhcGA/jHXuQ+wGlLr0qTMLRDJnYa6pFH1TgWcUccHF7h6F5Ez22b4E998CJIdCgRXqeaSfs="
+    - secure: "jV0rVwMKl93jSgZfFdtGYY/71+ZxsLu2fNeK3UgDvoKD37QA1V3QKWFQn1ioNSBdoxJfJowdwtczdBYWFB4VU3XJCNSQw5FUT4F0gmFtlp0u7HrFuxBiJ6Zczedenki+Ep/DrQBx6NSpHBiHIaTg66youRhIMkk18Z4tHaJ9XMw="
+    - secure: "UmeQfGXk6heV1pXPUQIhuueqJWn2NsZvYvLZib9SYmd5A5EnfEuq7N3suNekfhsjm6ifdX1Me9bkpQCcNs7YotmrM4HXgxyG1zcIBCN6JxL7oASwduAo5oV0y7E25fUHJukiuVs5sQ9Db6lpzF/uB8Jr+Kd12lA/9bUSJt/UOpc="
+    - secure: "UJ8su5ZsGIRj2eHVjwBSB3A8rEfaNz0uQfrp0uEpanSzGvUDJVi+dfLhqg3KVwuX2n8y502HzCVEFQow46fNyt4Vda3dNItGphk54U38rruGvLBUmnqVq6forqBU0syNizuAgPJjyzKLLRcYu0GeuNYgEF3ZI1oR1rlb4deUnFs="
+    - secure: "a74y6mHMFdzWCwxpESQpX6Tt6PwNEsiB7y07uu8pE/gH/AYert+07RlDNSKIqvjPaK4uTNQSwotye/b+LP2EsiNHLhL8AuSg1069dJ3eVto7/OTmFfgy1HTiK5xDolAs6Gj/ZQW+GlfZZ8j9Zlqrqsdlp9P8YT84eStvf2e73FY="

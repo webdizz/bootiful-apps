@@ -1,0 +1,10 @@
+---
+
+- hosts:
+  - vm
+#  connection: local
+  vars_files:
+    - vars.yml
+  sudo: True
+  roles:
+    - run_app

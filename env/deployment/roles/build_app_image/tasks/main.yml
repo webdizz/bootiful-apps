@@ -1,0 +1,6 @@
+---
+
+  - name: Build Docker image for application
+    command: docker build -t webdizz/bootiful-app:{{ application_version }} .
+    args:
+      chdir: "{{ project_root }}/env/docker/application"

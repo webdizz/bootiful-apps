@@ -1,0 +1,10 @@
+---
+
+  - name: Remove downloaded artifact after image was built
+    command: rm -rf {{ project_root }}/env/docker/application/{{ application_name }}
+
+  - name: Remove static resources after image was built
+    command: rm -rf {{ project_root }}/env/docker/web/static
+
+  - name: Remove Nginx configuration files after image was built
+    command: rm -rf {{ project_root }}/env/docker/web/nginx

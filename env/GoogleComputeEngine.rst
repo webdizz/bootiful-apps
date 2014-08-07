@@ -19,8 +19,7 @@ Google Compute Engine and Docker
       --machine-type f1-micro \
       --tags http-server https-server \
       --address 146.148.3.93 \
-      --no-boot-disk-auto-delete \
-      --disk name=bootiful-img boot=yes
+      --no-boot-disk-auto-delete
 
 * Create with existing device::
 

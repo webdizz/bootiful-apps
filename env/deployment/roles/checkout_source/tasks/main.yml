@@ -1,0 +1,9 @@
+---
+
+  - name: Create directory for source code
+    file: path={{ project_root }} state=directory
+
+  - name: Checkout source code in order to build images
+    git: repo=https://github.com/webdizz/bootiful-apps.git
+         dest={{ project_root }}
+         force=no
