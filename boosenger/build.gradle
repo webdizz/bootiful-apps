@@ -20,6 +20,8 @@ dependencies {
 
     // Distributed persistence
     compile 'org.springframework.boot:spring-boot-starter-redis'
+
+    compile 'org.springframework.boot:spring-boot-actuator'
 }
 
 apply plugin: 'maven-publish'
