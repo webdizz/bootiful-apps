@@ -37,15 +37,12 @@ configure(allprojects){
 subprojects {
     group = "com.epam.${githubProjectName}" // TEMPLATE: Set to organization of project
 
-    sourceCompatibility = 1.8
-
     dependencies {
-        compile     'org.slf4j:slf4j-api:1.7.7'
+        compile     "org.slf4j:slf4j-api:$slf4jApiVersion"
         compile     'com.google.guava:guava:18.0'
         compile     'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.4.0'
         provided    'org.projectlombok:lombok:1.14.4'
-        testCompile 'org.mockito:mockito-core:1.9.5'
+        testCompile "org.mockito:mockito-core:$mockitoVersion"
         testCompile 'junit:junit:4.11'
     }
 }
-

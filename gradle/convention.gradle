@@ -4,7 +4,7 @@ status = project.hasProperty('preferredStatus')?project.preferredStatus:(version
 subprojects { project ->
     apply plugin: 'java' // Plugin as major conventions
 
-    sourceCompatibility = 1.6
+    sourceCompatibility = javaSourceCompatibilityVersion
 
     // Restore status after Java plugin
     status = rootProject.status
@@ -90,5 +90,5 @@ githubPages {
 
 // Generate wrapper, which is distributed as part of source to alleviate the need of installing gradle
 task createWrapper(type: Wrapper) {
-    gradleVersion = '2.0'
+    gradleVersion = gradleDistVersion
 }
