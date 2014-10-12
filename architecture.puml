@@ -2,8 +2,8 @@
 
 actor User
 
-package "Boosender" {
-    [REST]
+package "Boosenger" {
+    [MVC]
     [MessageRepository]
     [Social]
     [Messaging]
@@ -14,16 +14,14 @@ package "Twitter" {
 }
 
 database messages
-database users
 
-User -right-> [REST]
-[REST] ..> [Messaging]
+User -right-> [MVC]
+[MVC] ..> [Messaging]
 [MessageRepository] -> messages
 [Messaging] -left-> [MessageRepository]
 
 [Messaging] -> [Social]
 
-[Social] -> users
 [Social] ..> [REST API]
 
 @enduml
