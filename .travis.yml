@@ -17,7 +17,7 @@ before_script:
   - chmod 600 ~/.ssh/google_compute_engine
 
 after_success:
-  - ./gradlew :boos:bintrayUpload -PbinTrayKey=$BINTRAY_KEY -Pversion="1.0.$TRAVIS_BUILD_NUMBER" -x publishMavenJavaPublicationToMavenLocal
+  - ./gradlew :boot:bintrayUpload -PbinTrayKey=$BINTRAY_KEY -Pversion="1.0.$TRAVIS_BUILD_NUMBER" -x publishMavenJavaPublicationToMavenLocal
   - ansible-playbook  -i env/deployment/gce.ini env/deployment/0_prepare.yml --extra-vars '{"application_version":"1.0.'$TRAVIS_BUILD_NUMBER'","project_root":"/home/travis/build/webdizz/bootiful-apps", "application_options":"APP_OPTS=--spring.active.profiles=gce '$TWITTER_APP_ID' '$TWITTER_APP_SEC',JAVA_OPTS=-Xmx1G"}'
   - ansible-playbook  -i env/deployment/gce.ini env/deployment/1_run.yml --extra-vars '{"application_version":"1.0.'$TRAVIS_BUILD_NUMBER'","project_root":"/home/travis/build/webdizz/bootiful-apps", "application_options":"APP_OPTS=--spring.active.profiles=gce '$TWITTER_APP_ID' '$TWITTER_APP_SEC',JAVA_OPTS=-Xmx1G"}'
 

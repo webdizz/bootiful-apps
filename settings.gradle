@@ -1,4 +1,4 @@
 rootProject.name='bootilful-apps'
-include ':boosenger',
+include ':bootiful-app',
         ':domain',
         ':persistence'
