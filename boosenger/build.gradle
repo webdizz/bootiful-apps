@@ -1,6 +1,3 @@
-apply plugin: 'java'
-apply plugin: 'eclipse'
-apply plugin: 'idea'
 apply plugin: 'spring-boot'
 
 dependencies {
@@ -22,39 +19,6 @@ dependencies {
 
     compile project(':persistence'),
             project(':domain')
-}
-
-apply plugin: 'maven-publish'
-apply plugin: 'com.jfrog.bintray'
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            if (plugins.hasPlugin('war')) {
-                from components.web
-            } else {
-                from components.java
-            }
-        }
-    }
-}
-
-bintray {
-    user            =   'webdizz'
-    key             =   bintrayKey
-    dryRun          =   false
-    publish         =   true
-    publications    =   ['mavenJava']
-    pkg {
-        repo = 'maven'
-        name = 'bootiful-apps'
-        desc = 'Bootiful App for IT Week@EPAM 2014'
-        websiteUrl = 'https://github.com/webdizz/bootiful-apps/'
-        vcsUrl = 'https://github.com/webdizz/bootiful-apps.git'
-        licenses = ['Apache-2.0']
-        labels = ['Spring Boot', 'Redis', 'Twitter', 'Spring Integration']
-        publicDownloadNumbers = true
-    }
 }
 
 bintrayUpload.dependsOn 'bootRepackage'
