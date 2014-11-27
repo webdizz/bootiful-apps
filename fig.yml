@@ -7,9 +7,9 @@ app:
   links:
     - redis
   volumes:
-    - boosenger/build/libs/boosenger-1.0-SNAPSHOT.jar:/boosenger-1.0-SNAPSHOT.jar
+    - boosenger/build/libs/bootiful-app-1.0-SNAPSHOT.jar:/bootiful-app-1.0-SNAPSHOT.jar
     - application.yml:/application.yml
-  command: java -jar /boosenger-1.0-SNAPSHOT.jar --spring.active.profiles=lc --spring.social.twitter.app-id=FUdxv0M8fVNnuSOIZi3wwoJdg --spring.social.twitter.app-secret=EtmgdGdg2HEA3TxkmykBW8kQJrKjMtrNT06hKstzEwXoO4wEtM
+  command: java -jar /bootiful-app-1.0-SNAPSHOT.jar --spring.active.profiles=lc --spring.social.twitter.app-id=FUdxv0M8fVNnuSOIZi3wwoJdg --spring.social.twitter.app-secret=EtmgdGdg2HEA3TxkmykBW8kQJrKjMtrNT06hKstzEwXoO4wEtM
 
 redis:
   image: dockerfile/redis
