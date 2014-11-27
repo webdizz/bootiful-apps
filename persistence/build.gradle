@@ -1,0 +1,8 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-redis:$springBootVersion"
+    compile project(':domain')
+}

@@ -6,7 +6,6 @@ buildscript {
         mavenLocal()
         jcenter()
         mavenCentral()
-
     }
     apply from: file('gradle/buildscript.gradle'), to: buildscript
     dependencies {
@@ -17,8 +16,8 @@ buildscript {
 allprojects {
     repositories { 
         mavenLocal()
-        mavenCentral()
         jcenter()
+        mavenCentral()
     }
 }
 

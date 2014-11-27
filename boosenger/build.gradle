@@ -4,24 +4,24 @@ apply plugin: 'idea'
 apply plugin: 'spring-boot'
 
 dependencies {
-    compile('org.springframework.boot:spring-boot-starter-web') {
+    compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion") {
         exclude module: "spring-boot-starter-tomcat"
     }
-    compile 'org.springframework.boot:spring-boot-starter-jetty'
+    compile "org.springframework.boot:spring-boot-starter-jetty:$springBootVersion"
 
     // Web UI
-    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compile "org.springframework.boot:spring-boot-starter-thymeleaf:$springBootVersion"
 
     // Twitter
-    compile 'org.springframework.social:spring-social-twitter'
+    compile 'org.springframework.social:spring-social-twitter:1.1.0.RELEASE'
 
     // Integration
-    compile 'org.springframework.boot:spring-boot-starter-integration'
+    compile "org.springframework.boot:spring-boot-starter-integration:$springBootVersion"
 
-    // Distributed persistence
-    compile 'org.springframework.boot:spring-boot-starter-redis'
+    compile "org.springframework.boot:spring-boot-actuator:$springBootVersion"
 
-    compile 'org.springframework.boot:spring-boot-actuator'
+    compile project(':persistence'),
+            project(':domain')
 }
 
 apply plugin: 'maven-publish'
