@@ -1,6 +1,8 @@
 // Establish version and status
 ext.githubProjectName = rootProject.name // Change if github project name is not the same as the root project's name
 
+apply from: file('dependencies.gradle')
+
 buildscript {
     repositories {
         mavenLocal()
@@ -21,6 +23,7 @@ allprojects {
     }
 }
 
+apply from: file('gradle/ide.gradle')
 apply from: file('gradle/convention.gradle')
 apply from: file('gradle/maven.gradle')
 apply from: file('gradle/check.gradle')
