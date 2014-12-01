@@ -27,6 +27,17 @@ apply from: file('gradle/ide.gradle')
 apply from: file('gradle/convention.gradle')
 apply from: file('gradle/check.gradle')
 apply from: file('gradle/bintray.gradle')
+apply from: file('gradle/sonarqube.gradle')
+
+sonarRunner {
+    sonarProperties {
+        property "sonar.host.url", "http://192.168.56.71:9000/"
+        property "sonar.jdbc.url", "jdbc:mysql://192.168.56.71:3306/sonarqube?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true"
+        property "sonar.jdbc.driverClassName", "com.mysql.jdbc.Driver"
+        property "sonar.jdbc.username", "sonarqube"
+        property "sonar.jdbc.password", "sonarqube"
+    }
+}
 
 subprojects {
     group = "com.epam.${githubProjectName}" // TEMPLATE: Set to organization of project
@@ -40,3 +51,4 @@ subprojects {
         testCompile 'junit:junit:4.11'
     }
 }
+
