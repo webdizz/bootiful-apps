@@ -1,6 +1,5 @@
 package com.epam.itweek.boosenger.controller;
 
-import java.util.Collections;
 import java.util.concurrent.Callable;
 
 import org.springframework.beans.factory.annotation.Autowired;
