@@ -1,0 +1,12 @@
+ext.defaultRunnerVersion = '2.4'
+ext.sonarRunnerVersion = ''
+
+if(!sonarRunnerVersion){
+    ext.sonarRunnerVersion = defaultRunnerVersion
+}
+
+apply plugin: 'sonar-runner'
+
+sonarRunner {
+    toolVersion = sonarRunnerVersion
+}
