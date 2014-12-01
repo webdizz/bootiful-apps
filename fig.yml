@@ -7,7 +7,7 @@ app:
   links:
     - redis
   volumes:
-    - boosenger/build/libs/bootiful-app-1.0-SNAPSHOT.jar:/bootiful-app-1.0-SNAPSHOT.jar
+    - bootiful-app/build/libs/bootiful-app-1.0-SNAPSHOT.jar:/bootiful-app-1.0-SNAPSHOT.jar
     - application.yml:/application.yml
   command: java -jar /bootiful-app-1.0-SNAPSHOT.jar --spring.active.profiles=lc --spring.social.twitter.app-id=FUdxv0M8fVNnuSOIZi3wwoJdg --spring.social.twitter.app-secret=EtmgdGdg2HEA3TxkmykBW8kQJrKjMtrNT06hKstzEwXoO4wEtM
 
@@ -24,8 +24,14 @@ nginx:
     - 80:80
     - 443:443
     - 22
+    - 8081:8081
+    - 8082:8082
+    - 9000:9000
   links:
     - app
+    - jenkins:jenkins
+    - artifactory:artifactory
+    - sonarqube:sonarqube
   volumes:
     - env/nginx/nginx.conf:/usr/local/nginx/conf/nginx.conf
     - env/nginx/includes:/usr/local/nginx/conf/includes
@@ -33,3 +39,40 @@ nginx:
     - sandbox/src/main/resources/static:/usr/local/nginx/html
   environment:
     - ROOT_PASS=123456
+
+jenkins:
+  image: webdizz/jenkins
+  expose:
+    - 8080
+  links:
+    - artifactory:artifactory
+  hostname: jenkins
+
+artifactory:
+  image: mattgruter/artifactory
+  expose:
+    - 8080
+  hostname: artifactory
+
+sonarqube:
+  image: webdizz/sonarqube-plugins
+  expose:
+    - 9000
+  hostname: sonarqube
+  links:
+    - mysql:mysql
+  environment:
+    - SONAR_JDBC_URL=jdbc:mysql://mysql:3306/sonarqube?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
+    - SONAR_DB_USERNAME=sonarqube
+    - SONAR_DB_PASSWORD=sonarqube
+
+mysql:
+  image: mysql:5.6
+  hostname: mysql
+  ports:
+    - 3306:3306
+  environment:
+    - MYSQL_ROOT_PASSWORD=mysecretpassword
+    - MYSQL_USER=sonarqube
+    - MYSQL_PASSWORD=sonarqube
+    - MYSQL_DATABASE=sonarqube
