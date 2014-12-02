@@ -4,6 +4,7 @@ String buildFlowJob = '0.0_buildflow_master'
 String buildJob = '0.1_build_master'
 String checkJob = '0.2_check_master'
 String artifactJob = '0.3_artifact_master'
+String deliverJob = '0.4_deliver_master'
 
 String workspace = '/tmp/jobs/bootiful-app_master'
 String targetJdk = 'java 1.8'
@@ -45,6 +46,19 @@ job {
     }
 }
 
+job {
+    name deliverJob
+    jdk targetJdk
+    customWorkspace workspace
+    parameters {
+        stringParam 'CURRENT_BUILD_NUMBER', '1'
+    }
+    steps {
+        shell('ansible-playbook -i env/deployment/vg.ini env/deployment/0_prepare.yml --extra-vars \'{"application_version":"1.0.\'$CURRENT_BUILD_NUMBER\'","project_root":"'+workspace+'", "application_options":"APP_OPTS=--spring.active.profiles=gce --spring.social.twitter.app-id=\'$TWITTER_APP_ID\' --spring.social.twitter.app-secret=\'$TWITTER_APP_SEC\',JAVA_OPTS=-Xmx1G"}\'')
+        shell('ansible-playbook -i env/deployment/vg.ini env/deployment/1_run.yml --extra-vars \'{"application_version":"1.0.\'$CURRENT_BUILD_NUMBER\'","project_root":"'+workspace+'", "application_options":"APP_OPTS=--spring.active.profiles=gce --spring.social.twitter.app-id=\'$TWITTER_APP_ID\' --spring.social.twitter.app-secret=\'$TWITTER_APP_SEC\',JAVA_OPTS=-Xmx1G"}\'')
+    }
+}
+
 job(type: BuildFlow) {
     name buildFlowJob
 
@@ -52,5 +66,6 @@ job(type: BuildFlow) {
         build("$buildJob")
         build("$checkJob")
         build("$artifactJob", CURRENT_BUILD_NUMBER: build.number)
+        build("$deliverJob", CURRENT_BUILD_NUMBER: build.number)
 """
 }
