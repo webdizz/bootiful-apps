@@ -2,7 +2,8 @@ def gitUrl = 'https://github.com/webdizz/bootiful-apps.git'
 
 String buildFlowJob = '0.0_buildflow_master'
 String buildJob = '0.1_build_master'
-String checkJob = '0.1_check_master'
+String checkJob = '0.2_check_master'
+String artifactJob = '0.3_artifact_master'
 
 String workspace = '/tmp/jobs/bootiful-app_master'
 String targetJdk = 'java 1.8'
@@ -35,11 +36,21 @@ job {
     }
 }
 
+job {
+    name artifactJob
+    jdk targetJdk
+    customWorkspace workspace
+    steps {
+        gradle(':boot:bintrayUpload -PbinTrayKey=$BINTRAY_KEY -Pversion="1.0.$CURRENT_BUILD_NUMBER" -x publishMavenJavaPublicationToMavenLocal')
+    }
+}
+
 job(type: BuildFlow) {
     name buildFlowJob
 
     buildFlow """\
         build("$buildJob")
         build("$checkJob")
+        build("$artifactJob", CURRENT_BUILD_NUMBER: build.number)
 """
 }
