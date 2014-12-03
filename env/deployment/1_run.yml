@@ -2,7 +2,6 @@
 
 - hosts:
   - vm
-#  connection: local
   vars_files:
     - vars.yml
   sudo: True
