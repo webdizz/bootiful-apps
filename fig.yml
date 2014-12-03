@@ -1,7 +1,5 @@
 app:
   image: webdizz/baseimage-java8
-  ports:
-    - 22
   expose:
     - 8080
   links:
@@ -15,15 +13,11 @@ redis:
   image: dockerfile/redis
   expose:
     - 6379
-  ports:
-    - 46379:6379
 
 nginx:
   image: webdizz/nginx
   ports:
     - 80:80
-    - 443:443
-    - 22
     - 8081:8081
     - 8082:8082
     - 9000:9000
